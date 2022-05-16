@@ -1,0 +1,74 @@
+:root{
+  --c-error: #f12020;
+  --c-default-blue: #5a72fd;
+  --c-secundari-blue: #3a57fa;
+  --c-white:#fff;
+  --c-border: #dadce0;
+}
+
+/* ----- text-field box ----- */
+.inputBox{
+  width: 100%;
+  overflow-x: none;
+}
+.inputBox form{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+/* passwords box*/
+.signBox .passwords{
+  display: flex;
+  gap: 10px;
+}
+
+/* ----- text-field input/textarea -----*/
+.text-field {
+  position: relative;
+  margin: .625rem 0rem;
+  width: 100%;
+}
+.text-field input, .text-field textarea, .text-field select {
+  width: 100%;
+  outline: none;
+  border: thin solid var(--c-border);
+  color: rgb(0, 0, 0);
+  padding: .725rem .3125rem;
+  border-radius: .3125rem;
+}
+.text-field textarea {
+  resize: none;
+  height: 200px;
+}
+.text-field input:focus, .text-field textarea:focus, .text-field select:focus{
+  box-shadow:  0 0 0 .125rem  var(--c-default-blue);
+  background-color:var(--c-white);
+}
+.text-field input:focus ~ .label, .text-field input:valid ~ .label,
+.text-field textarea:focus ~ .label, .text-field textarea:valid ~ .label 
+.text-field select ~ .label, .text-field select:valid ~ .label {
+  top: -0.625rem;
+  left: .625rem;
+  font-size: .9375rem;
+  background-color:var(--c-white);
+  padding:0 .125rem 0 .3125rem;
+}
+.text-field.error input, .text-field.error textarea {
+  border: thin solid var(--c-error);
+}
+.text-field.error input:focus, .text-field.error textarea:focus {
+  box-shadow:  0 0 0 .125rem var(--c-error);
+}
+.text-field.error .label, .text-field.error input:focus ~ .label,
+.text-field.error textarea:focus ~ .label{
+  color: red !important;
+}
+.text-field .label {
+  color: #999;
+  position: absolute;
+  pointer-events: none;
+  left: .625rem;
+  top: .725rem;
+  transition: 0.2s;
+}

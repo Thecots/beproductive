@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be productive</title>
+  <link rel="icon" href="/img/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/inputs.css">
+ <% if (site == 'login') { %>
+  <link rel="stylesheet" href="/css/login.css">
+ <% } %>
+</head>
+<body>
+  <%- body %>
+  <% if (site == 'login') { %>
+    <script src="/js/login.js"></script>
+   <% } %>
+  
+  <% if (locals.session) { %>
+    <script>
+      function cerrarSession(){
+        document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.reload()
+      }
+    </script>
+  <% } %>
+</body>
+</html>
