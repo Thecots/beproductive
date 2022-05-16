@@ -4,12 +4,53 @@
     <h1>BE PRODUCTIVE</h1>
   </div>
   <div class="session">
-    <h2><%= session.username %></h2>
+    <!-- <h2><%= session.username %></h2> -->
     <a onclick="cerrarSession()">Cerrar sesión</a>
   </div>
 </header>
 <header class="time"><p></p></header>
 <main>
-  
+  <div id="loadScreen"><div></div></div>
+  <menu>
+    <div class="active">
+      <img src="https://img.icons8.com/color/100/000000/plus-1year.png"/>
+      <div>
+        <h2>Anual</h2>
+        <p><b id="pAnual"></b> Tareas pendientes</p>
+      </div>
+    </div>
+    <div>
+      <img src="https://img.icons8.com/color/100/000000/plus-1month.png"/>
+      <div>
+        <h2>Menusal</h2>
+        <p><b id="pMenusal"></b> Tareas pendientes</p>
+      </div>
+    </div>
+    <div>
+      <img src="https://img.icons8.com/color/100/000000/plus-1day.png"/>
+      <div>
+        <h2>Diario</h2>
+        <p><b id="pDiario"></b> Tareas pendientes</p>
+      </div>
+    </div>
+  </menu>
+  <section class="main">
+    <div class="currentMoment">
+      <i onclick="before()" class="fa-solid fa-angle-left"></i>
+      <h1>2022</h1>
+      <i onclick="after()" class="fa-solid fa-angle-right"></i>
+    </div>
+    <section class="goals">
+      <div id="goalsToDo">
+        <header><h1>POR COMPLETAR</h1><b>0</b></header>
+      </div>
+      <div id="goalsDone">
+        <header><h1>COMPLETADO</h1></header>
+      </div>
+    </section>
+    <div class="crearTarea" onclick="">
+      <i class="fa-solid fa-circle-plus"></i>
+    </div>
+  </section>
 </main>
 <script src="/js/global.js"></script>
