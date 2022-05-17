@@ -11,6 +11,8 @@ body{
   background: #dae0e6;
 }
 
+
+
 /* header */
 
 header.main{
@@ -211,6 +213,10 @@ main section.main section.goals div{
   padding:  10px 15px;
 }
 
+section.goals h1{
+  font-weight: 400;
+}
+
 section.goals #goalsDone h1{
   color: rgb(50, 141, 50);
 }
@@ -224,7 +230,7 @@ section.goals header{
   padding: 10px 0;
 }
 
-main section.main .crearTarea{
+main section.main .crearTarea, .crearTarea2{
   background: white;
   border-radius: 5px;
   display: flex;
@@ -234,20 +240,82 @@ main section.main .crearTarea{
   transition: transform 0.3s;
 }
 
-main section.main .crearTarea:hover{
+main section.main .crearTarea:hover, .crearTarea2:hover{
   filter: brightness(0.80);
 }
-main section.main .crearTarea:active{
+main section.main .crearTarea:active, .crearTarea2:active{
   transform: scale(0.98);
 }
 main section.main .crearTarea:active ~  main section.main .crearTarea{
   font-size: 20px;
 }
 
-main section.main .crearTarea {
+main section.main .crearTarea , .crearTarea2{
   font-size: 30px;
   transition: all 0.3s;
 }
+
+section.form{
+  display: none;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1500px;
+  height: calc(100vh - 90px);
+  grid-template-columns: 1fr;
+  grid-template-rows: 60px 400px;
+  gap: 10px;
+  
+}
+
+section.form .title{
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+section.form .title h1{
+  font-weight: 500;
+}
+
+section.form form{
+
+}
+
+section.form form section{
+  border-radius: 5px; 
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px 25px;
+}
+
+section.form form section button{
+  font-size: 25px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  background-color: royalblue;
+}
+
+section.form form section button i{
+  filter: invert(100%);
+}
+
+section.form form section button:hover{
+  filter: brightness(0.80);
+}
+
+section.form form section button:active{
+  transform: scale(0.99);
+}
+
 
 @media (max-width: 725px) {
   header .logo h1 {
