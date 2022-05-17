@@ -23,6 +23,7 @@ function timer(){
 }
 
 function changeWeb(e,data){
+  menuTareas()
   const date = new Date();
   menu.children[0].setAttribute('onclick',`changeWeb(1,{year: ${date.getFullYear()}})`)
   menu.children[1].setAttribute('onclick',`changeWeb(2,{year: ${date.getFullYear()}, month: ${date.getMonth()}})`)
@@ -37,6 +38,9 @@ function changeWeb(e,data){
   
   const createbtn = document.querySelector('.crearTarea');
   
+  document.querySelector('#nocheck').innerHTML = ''
+  document.querySelector('#sicheck').innerHTML = ''
+
   /* anual  */
   if(e == 1){
     createbtn.setAttribute('onclick',`newGoal(1,{year: ${data.year}})`)
@@ -46,16 +50,47 @@ function changeWeb(e,data){
       <i onclick="changeWeb(1,{year: ${data.year+1}})" class="fa-solid fa-angle-right"></i>
     `
 
-    fetch('/goals/year', {
-      method: 'POST',
-      body: JSON.stringify({
-        year: data.year
-      }),
-      headers:{'Content-Type': 'application/json'}
-    })
+    fetch('/goals/year', {  method: 'POST', body: JSON.stringify({ year: data.year}),headers:{'Content-Type': 'application/json'}})
     .then(r => r.json())
     .then(r => {
-      document.querySelector('#goalsToDo header b').innerText = r.anual.filter(n => n.checked == 0).length
+      document.querySelector('#goalsToDo header b').innerText = r.noc.length;
+      let template = '';
+      r.noc.forEach(n => {
+        let hd;
+        if(n.content == '') hd = ''
+        else hd = `<div class="description"><p>${n.content}</p></div>`
+        template += `
+          <div class="goalBox" id="goal${n.id}">
+            <div class='checkedBox' ${date.getFullYear() <= r.year ? `onclick='checkGoal(${n.id},1,{year: ${r.year}, month: 1, day: 1})'` : ""}></div>
+            <div class="box">
+              <div class="title"><h1>${n.title}</h1></div>
+              ${hd}
+            </div>
+          </div>
+        `
+      });
+
+      let template2 = '';
+      r.sic.forEach(n => {
+        let hd;
+        if(n.content == '') hd = ''
+        else hd = `<div class="description"><p>${n.content}</p></div>`
+
+        template2 += `
+        <div class="goalBox" id="goal${n.id}">
+            <div class='checkedBox checked' ${date.getFullYear() <= r.year ? `onclick='incheckGoal(${n.id},1,{year: ${r.year}, month: 1, day: 1})'` : ""}>
+            <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="box">
+              <div class="title"><h1>${n.title}</h1></div>
+              ${hd}
+            </div>
+          </div>
+        `
+      })
+      
+      document.querySelector('#nocheck').innerHTML = template
+      document.querySelector('#sicheck').innerHTML = template2
     })
   }
 
@@ -68,7 +103,49 @@ function changeWeb(e,data){
       <i onclick="changeWeb(2,{year: ${data.month == 11 ? data.year+1 : data.year}, month: ${data.month == 11 ? 0 : data.month+1}})" class="fa-solid fa-angle-right"></i>
     `
 
-  }
+    fetch('/goals/month', {  method: 'POST', body: JSON.stringify({ year: data.year, month: data.month}),headers:{'Content-Type': 'application/json'}})
+    .then(r => r.json())
+    .then(r => {
+    document.querySelector('#goalsToDo header b').innerText = r.noc.length;
+    let template = '';
+    r.noc.forEach(n => {
+      let hd;
+      if(n.content == '') hd = ''
+      else hd = `<div class="description"><p>${n.content}</p></div>`
+      template += `
+        <div class="goalBox" id="goal${n.id}">
+          <div class='checkedBox' ${date.getFullYear() <= r.year && date.getMonth() <= r.month ? `onclick='checkGoal(${n.id},2,{year: ${r.year}, month: ${r.month}, day: 1})'` : ""}></div>
+          <div class="box">
+            <div class="title"><h1>${n.title}</h1></div>
+            ${hd}
+          </div>
+        </div>
+      `
+    });
+
+    let template2 = '';
+    r.sic.forEach(n => {
+      let hd;
+      if(n.content == '') hd = ''
+      else hd = `<div class="description"><p>${n.content}</p></div>`
+
+      template2 += `
+      <div class="goalBox" id="goal${n.id}">
+          <div class='checkedBox checked' ${date.getFullYear() <= r.year && date.getMonth() <= r.month  ? `onclick='incheckGoal(${n.id},2,{year: ${r.year}, month: ${r.month}, day: 1})'` : ""}>
+          <i class="fa-solid fa-check"></i>
+          </div>
+          <div class="box">
+            <div class="title"><h1>${n.title}</h1></div>
+            ${hd}
+          </div>
+        </div>
+      `
+    })
+    
+    document.querySelector('#nocheck').innerHTML = template
+    document.querySelector('#sicheck').innerHTML = template2
+  });
+}
 
   /* diario */
   if(e == 3){
@@ -81,6 +158,48 @@ function changeWeb(e,data){
       <h1>${day[new Date(data.year,data.month,data.day).getDay()]} ${data.day} de ${month[data.month]} del ${data.year}</h1>
       <i onclick="changeWeb(3,{year: ${data.month == 11 && data.day == dim ? data.year+1 : data.year}, month:${data.day == dim ? (data.month == 11 ? 0 : data.month+1) : data.month}, day: ${data.day == dim ? 1 : data.day+1 }})" class="fa-solid fa-angle-right"></i>
     `
+    fetch('/goals/day', {  method: 'POST', body: JSON.stringify({ year: data.year, month: data.month, day: data.day}),headers:{'Content-Type': 'application/json'}})
+    .then(r => r.json())
+    .then(r => {
+    document.querySelector('#goalsToDo header b').innerText = r.noc.length;
+    let template = '';
+    r.noc.forEach(n => {
+      let hd;
+      if(n.content == '') hd = ''
+      else hd = `<div class="description"><p>${n.content}</p></div>`
+      template += `
+        <div class="goalBox" id="goal${n.id}">
+          <div class='checkedBox' ${date.getFullYear() <= r.year && date.getMonth() <= r.month && date.getDate() <= r.day ? `onclick='checkGoal(${n.id},3,{year: ${r.year}, month: ${r.month}, day: ${r.day}})'` : ""}></div>
+          <div class="box">
+            <div class="title"><h1>${n.title}</h1></div>
+            ${hd}
+          </div>
+        </div>
+      `
+    });
+
+    let template2 = '';
+    r.sic.forEach(n => {
+      let hd;
+      if(n.content == '') hd = ''
+      else hd = `<div class="description"><p>${n.content}</p></div>`
+
+      template2 += `
+      <div class="goalBox" id="goal${n.id}">
+          <div class='checkedBox checked' ${date.getFullYear() <= r.year && date.getMonth() <= r.month && date.getDate() <= r.day ? `onclick='incheckGoal(${n.id},3,{year: ${r.year}, month: ${r.month}, day: ${r.day}})'` : ""}>
+          <i class="fa-solid fa-check"></i>
+          </div>
+          <div class="box">
+            <div class="title"><h1>${n.title}</h1></div>
+            ${hd}
+          </div>
+        </div>
+      `
+    })
+    
+    document.querySelector('#nocheck').innerHTML = template
+    document.querySelector('#sicheck').innerHTML = template2
+  });
   }
 }
 
@@ -108,11 +227,11 @@ function newGoal(e, data){
       <form>
         <section>
           <div class="text-field">
-            <input id="ftitle" maxlength="15" type="text" required autofocus> 
+            <input id="ftitle" maxlength="50" type="text" required autofocus> 
             <label class="label">Tarea</label>
           </div>
           <div class="text-field">
-            <textarea id="fdescription" maxlength="15" type="text"></textarea>
+            <textarea id="fdescription" maxlength="100" type="text"></textarea>
             <label class="label">Descrición <small style="font-size: 10px;">(opcional)</small></label>
           </div>
           <input hidden id="goaltype" value="${e}">
@@ -135,11 +254,11 @@ function newGoal(e, data){
     <form>
       <section>
         <div class="text-field">
-          <input id="ftitle" maxlength="15" type="text" required autofocus> 
+          <input id="ftitle" maxlength="50" type="text" required autofocus> 
           <label class="label">Tarea</label>
         </div>
         <div class="text-field">
-          <textarea id="fdescription" maxlength="15" type="text"></textarea>
+          <textarea id="fdescription" maxlength="100" type="text"></textarea>
           <label class="label">Descrición <small style="font-size: 10px;">(opcional)</small></label>
         </div>
         <input hidden id="goaltype" value="${e}">
@@ -164,11 +283,11 @@ function newGoal(e, data){
     <form>
       <section>
         <div class="text-field">
-          <input id="ftitle" maxlength="15" type="text" required autofocus> 
+          <input id="ftitle" maxlength="50" type="text" required autofocus> 
           <label class="label">Tarea</label>
         </div>
         <div class="text-field">
-          <textarea id="fdescription" maxlength="15" type="text"></textarea>
+          <textarea id="fdescription" maxlength="100" type="text"></textarea>
           <label class="label">Descrición <small style="font-size: 10px;">(opcional)</small></label>
         </div>
         <input hidden id="goaltype" value="${e}">
@@ -211,19 +330,36 @@ function newGoal(e, data){
     .then(r => r.json())
     .then(r => {
       if(r.type == 1){
-        changeWeb(1,{year: r.data.year})
+        changeWeb(1,{year: parseInt( r.data.year)})
       }
       if(r.type == 2){
-        changeWeb(2,{year: r.data.year, month: r.data.month})
+        changeWeb(2,{year: parseInt(r.data.year), month: parseInt(r.data.month)})
       }
       if(r.type == 3){
-        changeWeb(3,{year: r.data.year, month: r.data.month, day: r.data.day})
+        
+        changeWeb(3,{year: parseInt(r.data.year), month: parseInt(r.data.month), day: parseInt(r.data.day)})
       }
     })
        
   })
 }
 
+function checkGoal(id, type, data){
+  const box = document.querySelector('#nocheck');
+  fetch('/check', {  method: 'POST', body: JSON.stringify({id}),headers:{'Content-Type': 'application/json'}})
+  .then(r => r.json)
+  .then(r => {
+    changeWeb(type,{year: data.year, month: data.month, day: data.day})
+  })
+}
+
+function incheckGoal(id, type, data){
+  fetch('/incheck', {  method: 'POST', body: JSON.stringify({id}),headers:{'Content-Type': 'application/json'}})
+  .then(r => r.json)
+  .then(r => {
+    changeWeb(type,{year: data.year, month: data.month, day: data.day})
+  })
+}
 
 function loadScreen(e){
   const loader = document.querySelector('#loadScreen')

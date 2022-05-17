@@ -202,22 +202,25 @@ main section.main .currentMoment i:active{
 }
 
 main section.main section.goals{
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-main section.main section.goals div{
+main section.main section.goals > div{
+  display: grid;
+  grid-template-rows: 50px 1fr;
   background: white;
   border-radius: 5px;
   padding:  10px 15px;
 }
 
-section.goals h1{
+section.goals > h1{
   font-weight: 400;
 }
 
-section.goals #goalsDone h1{
+section.goals #goalsDone > h1{
   color: rgb(50, 141, 50);
 }
 
@@ -322,6 +325,30 @@ section.form form section button:active{
     display: none;
   }
 }
+
+
+.nocheckedgoals{
+  padding: 10px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.nocheckedgoals .goalBox{
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 5px;
+  border-top: 1px  solid rgba(128, 128, 128, 0.326) ;
+  border-top-style: dotted;
+  padding: 10px;
+}
+
+.nocheckedgoals .goalBox .checkedBox{
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.464);
+  cursor: pointer;
+}
+
 
 /* SCROLLBAR */
 /* width */
